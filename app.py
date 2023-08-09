@@ -64,6 +64,8 @@ def handle_image_message(event):
             TextSendMessage(text='画像の受け取りに失敗しました')
         )
 
-
+@app.route("/", methods=['get'])
+def index():
+    return "<h3>Hello! Everybody</h3>"
 if __name__ == "__main__":
     app.run()
