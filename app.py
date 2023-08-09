@@ -13,8 +13,6 @@ channel_access_token = 'YOUR_CHANNEL_ACCESS_TOKEN'
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
-ABS_PATH = os.path.dirname(os.path.abspath(__file__))
-
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -48,7 +46,7 @@ def handle_image_message(event):
     # Save the image locally
     if content_type.startswith('image'):
         filename = f"image_{image_message.id}.jpg"
-        filepath = os.path.join(ABS_PATH, filename)
+        filepath = os.path.join(os.getcwd(), filename)
         
         with open(filepath, 'wb') as f:
             for chunk in image_content.iter_content():
@@ -64,8 +62,10 @@ def handle_image_message(event):
             TextSendMessage(text='画像の受け取りに失敗しました')
         )
 
-@app.route("/", methods=['get'])
-def index():
-    return "<h3>Hello! Everybody</h3>"
+@app.route("/", methods=['GET'])
+def home():
+    return "<h3>Welcome to the homepage!</h3>"
+
+
 if __name__ == "__main__":
     app.run()
